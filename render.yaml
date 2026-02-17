@@ -1,0 +1,58 @@
+services:
+  # Base de datos PostgreSQL
+  - type: pserv
+    name: factusapp-db
+    plan: free
+    maxConnections: 10
+    databases:
+      - name: factusapp
+        databaseName: factusapp_dev
+        user: factusapp
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: Permitir acceso desde cualquier lugar
+
+  # Backend - Spring Boot
+  - type: web
+    name: factusapp-backend
+    env: node
+    plan: free
+    buildCommand: ./gradlew build -x test --no-daemon
+    startCommand: java -jar build/libs/*.jar
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: factusapp-db
+          property: connectionString
+      - key: JWT_SECRET
+        value: FactusAppSuperSecretKeyForJWTProduction2024DavidMontejoTRetoFactusMinimum64Characters!!
+      - key: FACTUS_API_URL
+        value: https://api-sandbox.factus.com.co
+      - key: FACTUS_CLIENT_ID
+        value: a11277dc-18d5-4f20-b216-4ce02dbe8407
+      - key: FACTUS_CLIENT_SECRET
+        value: Qbl5tEw7DBCIMPRjMxsxkgximAOeThT6N6vfehzT
+      - key: FACTUS_USERNAME
+        value: sandbox@factus.com.co
+      - key: FACTUS_PASSWORD
+        value: sandbox2024%
+      - key: FACTUS_DEMO_MODE
+        value: true
+      - key: CORS_ORIGINS
+        value: https://*.vercel.app,https://vercel.app
+      - key: SERVER_PORT
+        value: 8080
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PORT
+        value: 8080
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: factusapp-db
+          property: connectionString
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: false
+    healthCheckPath: /api/health
+    autoDeploy: true
