@@ -1,23 +1,26 @@
-# Multi-stage Dockerfile para FactusApp Backend
-# Compila el proyecto en Docker para evitar problemas con archivos locales
+# Multi-stage Dockerfile simplificado para FactusApp Backend
+# Compila en Docker y copia el JAR correcto automáticamente
 
 # Stage 1: Build - Compilar la aplicación
 FROM gradle:8.5.0-jdk17 AS build
 WORKDIR /app
 
-# Copiar solo los archivos necesarios (sin settings.gradle que no existe)
+# Copiar solo los archivos necesarios
 COPY build.gradle ./
 COPY src ./src
 
-# Buildar
+# Buildar (esto creará el Boot Jar con todos los recursos)
 RUN gradle build -x test --no-daemon
 
-# Stage 2: Runtime - Imagen final pequeña
+# Listar archivos creados para debug
+RUN ls -la build/libs/
+
+# Stage 2: Runtime - Imagen final
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copiar el Boot Jar específico (incluye todos los recursos)
-COPY --from=build /app/build/libs/factusapp-backend-1.0.0.jar app.jar
+# Copiar cualquier JAR que se haya creado
+RUN find /app/build/libs -name "*.jar" -type f -exec cp {} app.jar \;
 
 # Exponer puerto
 EXPOSE 8080
