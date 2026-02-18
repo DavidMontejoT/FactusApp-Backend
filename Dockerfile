@@ -16,8 +16,8 @@ RUN gradle build -x test --no-daemon
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copiar el JAR compilado desde el stage de build
-COPY --from=build /app/build/libs/*.jar app.jar
+# Copiar el Boot Jar específico (incluye todos los recursos)
+COPY --from=build /app/build/libs/factusapp-backend-1.0.0.jar app.jar
 
 # Exponer puerto
 EXPOSE 8080
