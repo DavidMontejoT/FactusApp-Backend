@@ -3,10 +3,10 @@ spring:
     name: factusapp-backend
 
   datasource:
-    # Railway proporciona DATABASE_URL, sino usar configuración local
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/factusapp_dev}
-    username: ${DB_USERNAME:factusapp}
-    password: ${DB_PASSWORD:factusapp123}
+    # Render usa variables PG*, Railway usa DATABASE_URL, sino usar configuración local
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:factusapp_dev}}
+    username: ${PGUSER:${DB_USERNAME:factusapp}}
+    password: ${PGPASSWORD:${DB_PASSWORD:factusapp123}}
     driver-class-name: org.postgresql.Driver
 
   jpa:
