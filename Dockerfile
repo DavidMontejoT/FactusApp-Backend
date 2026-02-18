@@ -19,8 +19,8 @@ RUN ls -la build/libs/
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copiar cualquier JAR que se haya creado
-RUN find /app/build/libs -name "*.jar" -type f -exec cp {} app.jar \;
+# Copiar el JAR desde el stage de build
+COPY --from=build /app/build/libs/*.jar app.jar
 
 # Exponer puerto
 EXPOSE 8080
