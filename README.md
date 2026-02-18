@@ -4,7 +4,9 @@ Sistema backend para facturación electrónica integrado con **Factus API** y **
 
 ## 🌐 Producción
 
-**API en producción:** https://factusapp-backend-1.onrender.com/api
+**Frontend en vivo:** [https://factusapp-frontend.onrender.com](https://factusapp-frontend.onrender.com)
+
+**Backend API:** https://factusapp-backend-1.onrender.com/api
 
 **Health Check:** https://factusapp-backend-1.onrender.com/api/health
 
@@ -13,8 +15,6 @@ Sistema backend para facturación electrónica integrado con **Factus API** y **
 ---
 
 ## 🚀 Aplicación en Producción
-
-**Frontend:** [https://factusapp-frontend.onrender.com](https://factusapp-frontend.onrender.com)
 
 **Credenciales de prueba:**
 - Email: `test@test.com`
