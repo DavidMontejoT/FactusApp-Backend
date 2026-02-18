@@ -67,24 +67,11 @@ services:
       - key: JWT_REFRESH_EXPIRATION
         value: 604800000
 
-      # Factus API - Credenciales Sandbox
-      - key: FACTUS_API_URL
-        value: https://api-sandbox.factus.com.co
-
-      - key: FACTUS_CLIENT_ID
-        value: a11277dc-18d5-4f20-b216-4ce02dbe8407
-
-      - key: FACTUS_CLIENT_SECRET
-        value: Qbl5tEw7DBCIMPRjMxsxkgximAOeThT6N6vfehzT
-
-      - key: FACTUS_USERNAME
-        value: sandbox@factus.com.co
-
-      - key: FACTUS_PASSWORD
-        value: sandbox2024%
-
-      - key: FACTUS_DEMO_MODE
-        value: true
+      # Factus API - Configurar en Render Dashboard
+      # FACTUS_API_URL, FACTUS_CLIENT_ID, FACTUS_CLIENT_SECRET
+      # FACTUS_USERNAME, FACTUS_PASSWORD, FACTUS_DEMO_MODE
+      # Nota: Las credenciales deben configurarse manualmente en el dashboard de Render
+      # por razones de seguridad. No incluir credenciales en este archivo público.
 
       # CORS - Permitir frontend en Render
       - key: CORS_ORIGINS

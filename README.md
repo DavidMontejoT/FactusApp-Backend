@@ -179,11 +179,13 @@ JWT_REFRESH_EXPIRATION=604800000
 
 # Factus API (Sandbox)
 FACTUS_API_URL=https://api-sandbox.factus.com.co
-FACTUS_CLIENT_ID=a11277dc-18d5-4f20-b216-4ce02dbe8407
-FACTUS_CLIENT_SECRET=Qbl5tEw7DBCIMPRjMxsxkgximAOeThT6N6vfehzT
-FACTUS_USERNAME=sandbox@factus.com.co
-FACTUS_PASSWORD=sandbox2024%
+FACTUS_CLIENT_ID=tu_client_id
+FACTUS_CLIENT_SECRET=tu_client_secret
+FACTUS_USERNAME=tu_usuario_factus
+FACTUS_PASSWORD=tu_password_factus
 FACTUS_DEMO_MODE=true
+
+# Nota: Las credenciales de sandbox se obtienen en https://sandbox.factus.com.co
 
 # CORS
 CORS_ORIGINS=https://factusapp-frontend.onrender.com,https://*.onrender.com
