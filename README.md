@@ -18,7 +18,7 @@ Sistema backend para facturación electrónica integrado con **Factus API** y **
 
 **Credenciales de prueba:**
 - Email: `test@test.com`
-- Password: `Password123!`
+- Password: `escribeme +573013188696`
 
 ---
 
