@@ -73,13 +73,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Configurar CORS - Habilitado para desarrollo
+            // Configurar CORS - Habilitado para desarrollo y producción
             .cors(cors -> cors.configurationSource(request -> {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowCredentials(true);
+
+                // Permitir localhost para desarrollo
                 config.addAllowedOrigin("http://localhost:3000");
                 config.addAllowedOrigin("http://localhost:3001");
                 config.addAllowedOrigin("http://localhost:5173"); // Vite default
+
+                // Permitir frontend en Render
+                config.addAllowedOrigin("https://factusapp-frontend.onrender.com");
+
+                // Permitir cualquier subdominio de onrender.com
+                config.addAllowedOriginPattern("https://*.onrender.com");
+
                 config.addAllowedHeader("*");
                 config.addAllowedMethod("*");
                 config.setExposedHeaders(List.of("Authorization"));
