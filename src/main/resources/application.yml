@@ -12,7 +12,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true  # Cambiado a true para ver logs SQL en Render
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
