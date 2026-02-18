@@ -17,6 +17,7 @@ import com.factusapp.repository.ProductRepository;
 import com.factusapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,9 @@ public class InvoiceService {
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
     private final FactusService factusService;
+
+    @Value("${factus.api.demo-mode:false}")
+    private boolean demoMode;
 
     /**
      * Crear una nueva factura
@@ -161,7 +165,8 @@ public class InvoiceService {
         User user = invoice.getUser();
 
         // Verificar que el usuario tenga plan que permite DIAN
-        if (user.getPlan() == User.Plan.FREE) {
+        // En modo demo, permitimos emisión sin importar el plan
+        if (!demoMode && user.getPlan() == User.Plan.FREE) {
             throw new RuntimeException("El plan FREE no permite facturación electrónica DIAN. " +
                     "Actualiza al plan BASIC o FULL.");
         }

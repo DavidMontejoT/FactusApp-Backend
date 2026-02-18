@@ -89,7 +89,7 @@ public class InvoiceController {
 
     @PostMapping("/{id}/emit")
     @Operation(summary = "Emitir factura a DIAN", description = "Emite una factura electrónica a DIAN a través de Factus API")
-    public ResponseEntity<InvoiceResponse> emitInvoiceToDIAN(
+    public ResponseEntity<?> emitInvoiceToDIAN(
             Authentication authentication,
             @PathVariable Long id) {
         User user = getCurrentUser(authentication);
@@ -102,8 +102,25 @@ public class InvoiceController {
 
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            // Devolver el mensaje de error específico
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
         }
+    }
+
+    // Clase interna para respuestas de error
+    private static class ErrorResponse {
+        private final String error;
+        private final String message;
+
+        public ErrorResponse(String message) {
+            this.error = "Bad Request";
+            this.message = message;
+        }
+
+        public String getError() { return error; }
+        public String getMessage() { return message; }
     }
 
     @PostMapping("/{id}/sync-dian")
