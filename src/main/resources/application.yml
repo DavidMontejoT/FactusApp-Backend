@@ -19,9 +19,10 @@ spring:
         format_sql: true
 
   flyway:
-    enabled: false  # Deshabilitar Flyway en Railway para evitar conflictos
+    enabled: true  # Habilitar Flyway en Render para migraciones automáticas
     baseline-on-migrate: true
     locations: classpath:db/migration
+    baseline-version: 0
 
 server:
   port: ${SERVER_PORT:8080}
@@ -47,7 +48,7 @@ jwt:
 
 # CORS Configuration
 cors:
-  allowed-origins: ${CORS_ORIGINS:http://localhost:3000,http://localhost:19006,https://factusapp-demo.vercel.app,https://*.vercel.app}
+  allowed-origins: ${CORS_ORIGINS:http://localhost:3000,https://factusapp-frontend.onrender.com,https://*.onrender.com}
   allowed-methods: GET,POST,PUT,DELETE,OPTIONS
   allowed-headers: "*"
   allow-credentials: true

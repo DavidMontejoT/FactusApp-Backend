@@ -1,0 +1,110 @@
+# Configuración de Deploy en Render para FactusApp Backend
+# Spring Boot 3.2.0 + PostgreSQL
+
+services:
+  # Web Service - Backend API
+  - type: web
+    name: factusapp-backend
+    env: java
+    plan: free
+    region: oregon
+
+    # Configuración de build
+    buildCommand: ./gradlew clean build -x test --no-daemon
+    startCommand: java -jar build/libs/*.jar
+
+    # Variables de entorno
+    envVars:
+      # Base de datos (Render configura automáticamente PG*)
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: factusapp-db
+          property: connectionString
+
+      - key: PGHOST
+        fromDatabase:
+          name: factusapp-db
+          property: host
+
+      - key: PGPORT
+        fromDatabase:
+          name: factusapp-db
+          property: port
+
+      - key: PGDATABASE
+        fromDatabase:
+          name: factusapp-db
+          property: database
+
+      - key: PGUSER
+        fromDatabase:
+          name: factusapp-db
+          property: user
+
+      - key: PGPASSWORD
+        fromDatabase:
+          name: factusapp-db
+          property: password
+
+      # Configuración del servidor
+      - key: SERVER_PORT
+        value: 8080
+
+      - key: PORT
+        value: 8080
+
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m"
+
+      # JWT - Generar uno nuevo para producción
+      - key: JWT_SECRET
+        generateValue: true
+        length: 64
+
+      - key: JWT_EXPIRATION
+        value: 900000
+
+      - key: JWT_REFRESH_EXPIRATION
+        value: 604800000
+
+      # Factus API - Credenciales Sandbox
+      - key: FACTUS_API_URL
+        value: https://api-sandbox.factus.com.co
+
+      - key: FACTUS_CLIENT_ID
+        value: a11277dc-18d5-4f20-b216-4ce02dbe8407
+
+      - key: FACTUS_CLIENT_SECRET
+        value: Qbl5tEw7DBCIMPRjMxsxkgximAOeThT6N6vfehzT
+
+      - key: FACTUS_USERNAME
+        value: sandbox@factus.com.co
+
+      - key: FACTUS_PASSWORD
+        value: sandbox2024%
+
+      - key: FACTUS_DEMO_MODE
+        value: true
+
+      # CORS - Permitir frontend en Render
+      - key: CORS_ORIGINS
+        value: https://factusapp-frontend.onrender.com,https://factusapp-frontend.onrender.com/*
+
+      # Logging
+      - key: LOG_LEVEL
+        value: INFO
+
+    # Health check
+    healthCheckPath: /api/health
+
+    # Auto-deploy desde GitHub
+    branch: main
+
+# Base de datos PostgreSQL
+databases:
+  - name: factusapp-db
+    databaseName: factusapp_prod
+    user: factusapp
+    plan: free
+    region: oregon
+    ipAllowList: []  # Permitir acceso solo desde servicios de Render
